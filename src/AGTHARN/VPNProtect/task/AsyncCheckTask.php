@@ -26,24 +26,17 @@ class AsyncCheckTask extends AsyncTask
 
     public function onRun(): void
     {
-        if ($this->playerIP === 'error') {
-            $this->setResult('error');
-            return;
-        }
         $this->setResult(API::checkAll($this->playerIP, unserialize($this->configs)));
     }
 
     public function onCompletion(): void
     {
         $result = $this->getResult();
-
-        $name = $this->playerName ?? 'null';
-        $player = Server::getInstance()->getPlayerExact($name) ?? null;
+        $player = Server::getInstance()->getPlayerExact($this->playerName) ?? null;
 
         $failedChecks = 0;
         $vpnResult = false;
-
-        if ($result === 'error') {
+        if (count($result) === 0) {
             $this->logger->debug('An error has occurred on VPN IPs! Please ensure others are affected before reporting!');
             return;
         }
@@ -57,23 +50,23 @@ class AsyncCheckTask extends AsyncTask
                         return;
                     }
                 }
-                if ($value === true) {
+                if ($value) {
                     $vpnResult = true;
                     $failedChecks++;
-                    $this->logger->debug($name . ' has failed VPN ' . $key . '! (' . (string) $failedChecks . ')');
-                } elseif ($value === 'error') {
+                    $this->logger->debug($this->playerName . ' has failed VPN ' . $key . '! (' . (string) $failedChecks . ')');
+                } elseif ($value === API::CURL_ERROR) {
                     $this->logger->debug('An error has occured on VPN ' . $key . '! This can be ignored if other checks are not affected.');
                 }
             }
         }
 
-        if ($vpnResult === true) {
+        if ($vpnResult) {
             if (Main::getInstance()->getConfig()->get('enable-kick', true) && $failedChecks >= Main::getInstance()->getConfig()->get('minimum-checks', 2)) {
                 $player === null ? $this->logger->debug('An error has occured when kicking a player! ') : $player->kick(C::colorize(Main::getInstance()->getConfig()->get('kick-message')));
             }
-            $this->logger->debug($name . ' VPN Checks have been completed and player has failed! (' . (string) $failedChecks . ')');
-        } else {
-            $this->logger->debug($name . ' VPN Checks have been completed and player has passed! (' . (string) $failedChecks . ')');
+            $this->logger->debug($this->playerName . ' VPN Checks have been completed and player has failed! (' . (string) $failedChecks . ')');
+            return;
         }
+        $this->logger->debug($this->playerName . ' VPN Checks have been completed and player has passed! (' . (string) $failedChecks . ')');
     }
 }
