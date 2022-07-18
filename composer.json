@@ -1,0 +1,9 @@
+{
+  "name": "agtharn/vpnprotect",
+  "type": "library",
+  "description": "",
+  "require-dev": {
+    "pocketmine/pocketmine-mp": "4.*",
+    "phpstan/phpstan": "^1.8.1"
+  }
+}

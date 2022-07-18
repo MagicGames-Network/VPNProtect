@@ -1,0 +1,7 @@
+parameters:
+    level: 8
+    checkMissingIterableValueType: false
+    reportUnmatchedIgnoredErrors: false
+    
+    paths:
+        - src/AGTHARN/VPNProtect
