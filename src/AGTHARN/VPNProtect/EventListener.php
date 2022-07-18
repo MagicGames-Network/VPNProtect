@@ -22,6 +22,7 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
         if (!$player->hasPermission("vpnprotect.bypass")) {
+            // TODO: IF LARGE NUMBER OF PLAYERS JOIN LIKE A BOT ATTACK, THE ASYNCPOOL WILL BE FLOODED!
             $this->plugin->getServer()->getAsyncPool()->submitTask(new AsyncCheckTask($this->plugin->getLogger(), $player->getNetworkSession()->getIp(), $player->getName(), [
                 'check2.key' => $this->plugin->getConfig()->getNested('check2.key', ''),
                 'check4.key' => $this->plugin->getConfig()->getNested('check4.key', ''),

@@ -8,7 +8,8 @@ use pocketmine\utils\InternetRequestResult;
 
 class API
 {          
-    public const CURL_ERROR = 0;
+    public const REQUEST_ERROR = 0;
+    public const PARSE_ERROR = 1;
 
     public static function checkAll(string $ip, array $configs = null): array
     {   
@@ -38,52 +39,43 @@ class API
 
             $internetResult = Internet::getURL($value, 10, $apiHeaders[$key . '_header'] ?? []);
             if (!$internetResult instanceof InternetRequestResult) {
-                $results[$dataLabel] = self::CURL_ERROR;
-                continue;
-            }
-
-            $decoded = json_decode($internetResult->getBody(), true);
-            if (is_int($decoded)) {
-                $results[$dataLabel] = self::parseIntResult($decoded);
-                continue;
-            }
-            if ($decoded === null) {
-                $results[$dataLabel] = self::CURL_ERROR;
+                $results[$dataLabel] = self::REQUEST_ERROR;
                 continue;
             }
             
-            $results[$dataLabel] = self::parseArrayResult($decoded, $ip);
+            $results[$dataLabel] = self::parseResult(json_decode($internetResult->getBody(), true), $ip);
         }
         return $results;
     }
 
-    private static function parseArrayResult(array $result, string $ip): bool|int
+    private static function parseResult(mixed $result, string $ip): bool|int
     {
-        return match (true) {
-            isset($result['BadIP']) => $result['BadIP'] >= 1 ? true : false,
-            isset($result[$ip]['proxy']) => $result[$ip]['proxy'] === 'yes' ? true : false,
-            isset($result['host-ip']) => $result['host-ip'],
-            isset($result['isProxy']) => $result['isProxy'] === 'YES' ? true : false,
-            isset($result['security']['vpn']) => $result['security']['vpn'],
-            isset($result['security']['proxy']) => $result['security']['proxy'],
-            isset($result['security']['tor']) => $result['security']['tor'],
-            isset($result['vpn']) => $result['vpn'],
-            isset($result['proxy']) => $result['proxy'],
-            isset($result['tor']) => $result['tor'],
-            isset($result['block']) => $result['block'] === 1 ? true : false,
-            isset($result['data']['block']) => $result['data']['block'] === 1 ? true : false,
-            isset($result['privacy']['vpn']) => $result['privacy']['vpn'],
-            isset($result['privacy']['proxy']) => $result['privacy']['proxy'],
-            isset($result['privacy']['tor']) => $result['privacy']['tor'],
-            isset($result['privacy']['hosting']) => $result['privacy']['hosting'],
-            default => self::CURL_ERROR
-        };
-    }
-
-    private static function parseIntResult(int $result): bool
-    {
-        // right now, there's only 1 check using this so we can just return the result directly
-        return $result === 1 ? true : false;
+        if (is_array($result)) {
+            return match (true) {
+                isset($result['BadIP']) => $result['BadIP'] >= 1 ? true : false,
+                isset($result[$ip]['proxy']) => $result[$ip]['proxy'] === 'yes' ? true : false,
+                isset($result['host-ip']) => $result['host-ip'],
+                isset($result['isProxy']) => $result['isProxy'] === 'YES' ? true : false,
+                isset($result['security']['vpn']) => $result['security']['vpn'],
+                isset($result['security']['proxy']) => $result['security']['proxy'],
+                isset($result['security']['tor']) => $result['security']['tor'],
+                isset($result['vpn']) => $result['vpn'],
+                isset($result['proxy']) => $result['proxy'],
+                isset($result['tor']) => $result['tor'],
+                isset($result['block']) => $result['block'] === 1 ? true : false,
+                isset($result['data']['block']) => $result['data']['block'] === 1 ? true : false,
+                isset($result['privacy']['vpn']) => $result['privacy']['vpn'],
+                isset($result['privacy']['proxy']) => $result['privacy']['proxy'],
+                isset($result['privacy']['tor']) => $result['privacy']['tor'],
+                isset($result['privacy']['hosting']) => $result['privacy']['hosting'],
+                default => self::PARSE_ERROR
+            };
+        }
+        if (is_int($result)) {
+            // right now, there's only 1 check using this so we can just return the result directly
+            return $result === 1 ? true : false;
+        }
+        return self::PARSE_ERROR;
     }
 
     public static function getDefaults(): array
