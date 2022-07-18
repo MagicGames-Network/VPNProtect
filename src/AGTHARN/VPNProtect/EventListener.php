@@ -22,7 +22,7 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
         if (!$player->hasPermission("vpnprotect.bypass")) {
-            $this->plugin->getServer()->getAsyncPool()->submitTask(new AsyncCheckTask($player->getNetworkSession()->getIp(), $player->getName(), [
+            $this->plugin->getServer()->getAsyncPool()->submitTask(new AsyncCheckTask($this->plugin->getLogger(), $player->getNetworkSession()->getIp(), $player->getName(), [
                 'check2.key' => $this->plugin->getConfig()->getNested('check2.key', ''),
                 'check4.key' => $this->plugin->getConfig()->getNested('check4.key', ''),
                 'check5.key' => $this->plugin->getConfig()->getNested('check5.key', 'demo'),

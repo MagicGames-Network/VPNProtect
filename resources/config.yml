@@ -10,16 +10,6 @@
 # https://www.spigotmc.org/resources/anti-vpn.58291/
 # (dont actually try to use it on a pmmp server tho)
 
-##### CONFIGURATION #####
-
-# Sends information of checks performed when:
-# - players have failed or passed the vpn checks
-# - the check has encountered an error
-# - when there are other errors encountered (like ip)
-enable-debug: false
-
-#########################
-
 
 ##### KICK #####
 

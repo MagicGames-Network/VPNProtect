@@ -21,14 +21,4 @@ class Main extends PluginBase
         self::$instance = $this;
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
     }
-
-    public function sendDebug(string $message): bool
-    {
-        if ($this->getConfig()->get('enable-debug')) {
-            $this->getLogger()->info($message);
-            return true;
-        }
-        $this->getLogger()->debug($message);
-        return false;
-    }
 }
