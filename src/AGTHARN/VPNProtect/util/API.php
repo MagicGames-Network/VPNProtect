@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace AGTHARN\VPNProtect\util;
 
+use pocketmine\utils\Internet;
+use pocketmine\utils\InternetRequestResult;
+
 class API
 {          
     public static function checkAll(string $ip, array $configs = null): array
@@ -26,35 +29,17 @@ class API
             'api9_header' => ['X-Key: ' . $configs['check9.key']]
         ];
 
-        $curl = curl_init();
-        curl_setopt_array($curl, [
-            CURLOPT_AUTOREFERER => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HEADER => false,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 4,
-            CURLOPT_TIMEOUT => 4
-        ]);
-
         foreach ($APIs as $key => $value) {
             $dataLabel = str_replace('api', 'data', $key);
 
-            curl_setopt($curl, CURLOPT_URL, $value);
-            if (in_array($key . '_header', $apiHeaders)) {
-                curl_setopt_array($curl, [
-                    CURLOPT_HTTPHEADER => $apiHeaders[$key . '_header'],
-                    CURLOPT_HEADER => true
-                ]);
-            } else {
-                curl_setopt($curl, CURLOPT_HEADER, false);
+            $internetResult = Internet::getURL($value, 10, $apiHeaders[$key . '_header'] ?? []);
+            if (!$internetResult instanceof InternetRequestResult) {
+                ${$dataLabel} = 'error';
             }
-
-            // PHPStan gets really confused here, so that's why all these errors have to be ignored.
-            // If anyone can get this fixed, greatly appreciated!
-
-            ${$dataLabel} = curl_exec($curl); /** @phpstan-ignore-line */
-            ${$dataLabel} = is_bool(${$dataLabel}) ? 'error' : json_decode(${$dataLabel}, true); /** @phpstan-ignore-line */
+            ${$dataLabel} = $internetResult->getBody();
         }
+        // PHPStan gets really confused here, so that's why all these errors have to be ignored.
+        // If anyone can get this fixed, greatly appreciated!
 
         $check1 = isset($data1['BadIP']) ? $data1['BadIP'] : 'error';                                      /* @phpstan-ignore-line */
         $check2 = isset($data2[$ip]['proxy']) ? $data2[$ip]['proxy'] : 'error';                            /* @phpstan-ignore-line */
@@ -74,7 +59,6 @@ class API
         $check10_tor = isset($data10['privacy']['tor']) ? $data10['privacy']['tor'] : 'error';             /* @phpstan-ignore-line */
         $check10_hosting = isset($data10['privacy']['hosting']) ? $data10['privacy']['hosting'] : 'error'; /* @phpstan-ignore-line */
 
-        curl_close($curl);
         return [
             'check1' => $check1 === 'error' ? 'error' : ($check1 >= 1 ? true : false),                                 /* @phpstan-ignore-line */
             'check2' => $check2 === 'error' ? 'error' : ($check2 === 'yes' ? true : false),                            /* @phpstan-ignore-line */
