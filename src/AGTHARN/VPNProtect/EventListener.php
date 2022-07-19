@@ -34,7 +34,8 @@ class EventListener implements Listener
                 'check7.lighter_penalties' => $this->plugin->getConfig()->getNested('check7.lighter_penalties', true),
                 'check8.key' => $this->plugin->getConfig()->getNested('check8.key', ''),
                 'check9.key' => $this->plugin->getConfig()->getNested('check9.key', ''),
-                'check10.key' => $this->plugin->getConfig()->getNested('check10.key', '')
+                'check10.key' => $this->plugin->getConfig()->getNested('check10.key', ''),
+                'check11.key' => $this->plugin->getConfig()->getNested('check11.key', '')
             ]));
         }
     }

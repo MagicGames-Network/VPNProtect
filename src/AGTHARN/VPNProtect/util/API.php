@@ -26,7 +26,8 @@ class API
             'api7' => 'https://ipqualityscore.com/api/json/ip/' . $configs['check7.key'] . '/' . $ip . '?strictness=' . $configs['check7.strictness'] . '&allow_public_access_points=true&fast=' . $configs['check7.fast'] . '&lighter_penalties=' . $configs['check7.lighter_penalties'] . '&mobile=' . $configs['check7.mobile'],
             'api8' => 'http://v2.api.iphub.info/ip/' . $ip,
             'api9' => 'https://www.iphunter.info:8082/v1/ip/' . $ip,
-            'api10' => 'https://ipinfo.io/' . $ip . '/json?token=' . $configs['check10.key']
+            'api10' => 'https://ipinfo.io/' . $ip . '/json?token=' . $configs['check10.key'],
+            'api11' => 'https://funkemunky.cc/vpn?ip=' . $ip . '&license=' . $configs['check11.key'],
         ];
         $apiHeaders = [
             'api8_header' => ['X-Key: ' . $configs['check8.key']],
@@ -60,15 +61,15 @@ class API
                 isset($result['security']['proxy']) => $result['security']['proxy'], // 6
                 isset($result['security']['tor']) => $result['security']['tor'], // 6
                 isset($result['security']['relay']) => $result['security']['relay'], // 6
-                isset($result['vpn']) => $result['vpn'],
-                isset($result['proxy']) => $result['proxy'],
-                isset($result['tor']) => $result['tor'],
-                isset($result['block']) => $result['block'] === 1 ? true : false,
-                isset($result['data']['block']) => $result['data']['block'] === 1 ? true : false,
-                isset($result['privacy']['vpn']) => $result['privacy']['vpn'],
-                isset($result['privacy']['proxy']) => $result['privacy']['proxy'],
-                isset($result['privacy']['tor']) => $result['privacy']['tor'],
-                isset($result['privacy']['hosting']) => $result['privacy']['hosting'],
+                isset($result['vpn']) => $result['vpn'], // 7
+                isset($result['proxy']) => $result['proxy'], // 7 and 11
+                isset($result['tor']) => $result['tor'], // 7
+                isset($result['block']) => $result['block'] === 1 ? true : false, // 8
+                isset($result['data']['block']) => $result['data']['block'] === 1 ? true : false, // 9
+                isset($result['privacy']['vpn']) => $result['privacy']['vpn'], // 10
+                isset($result['privacy']['proxy']) => $result['privacy']['proxy'], // 10
+                isset($result['privacy']['tor']) => $result['privacy']['tor'], // 10
+                isset($result['privacy']['hosting']) => $result['privacy']['hosting'], // 10
                 default => self::PARSE_ERROR
             };
         }
@@ -92,7 +93,8 @@ class API
             'check7.lighter_penalties' => true,
             'check8.key' => '',
             'check9.key' => '',
-            'check10.key' => ''
+            'check10.key' => '',
+            'check11.key' => ''
         ];
     }
 

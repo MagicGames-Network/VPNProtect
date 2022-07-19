@@ -158,6 +158,13 @@ check10:
   tor: true
   hosting: true
 
+# https://funkemunky.cc/
+# No data
+check11:
+  enabled: true
+  # OPTIONAL KEY!
+  key: ''
+
 ##################
 
 
