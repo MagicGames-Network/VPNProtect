@@ -1,5 +1,6 @@
 <?php
-declare(strict_types=1); 
+
+declare(strict_types=1);
 
 namespace AGTHARN\VPNProtect\util;
 
@@ -7,22 +8,21 @@ use pocketmine\utils\Internet;
 use pocketmine\utils\InternetRequestResult;
 
 class API
-{          
+{
     public const REQUEST_ERROR = 0;
     public const PARSE_ERROR = 1;
 
     public static function checkAll(string $ip, array $configs = null): array
-    {   
+    {
         // This code originates from VPNProtect.
         if ($configs === null) $configs = self::getDefaults();
         $APIs = [
-            'api1' => 'https://check.getipintel.net/check.php?ip=' . $ip . '&format=json&contact=idonthavetook@outlook.de&oflags=b',
+            'api1' => 'https://check.getipintel.net/check.php?ip=' . $ip . '&format=json&contact=' . self::generateRandom(mt_rand(0, 10)) . '@outlook.de&oflags=b',
             'api2' => 'https://proxycheck.io/v2/' . $ip . '?key=' . $configs['check2.key'],
             'api3' => 'https://api.iptrooper.net/check/' . $ip,
             'api4' => 'http://api.vpnblocker.net/v2/json/' . $ip . $configs['check4.key'],
             'api5' => 'https://api.ip2proxy.com/?ip=' . $ip . '&format=json&key=' . $configs['check5.key'],
             'api6' => 'https://vpnapi.io/api/' . $ip,
-            // TODO: API7 HAS MADE API KEYS MANDATORY! THIS WILL NOT WORK UNTIL I FIX IT.
             'api7' => 'https://ipqualityscore.com/api/json/ip/' . $configs['check7.key'] . '/' . $ip . '?strictness=' . $configs['check7.strictness'] . '&allow_public_access_points=true&fast=' . $configs['check7.fast'] . '&lighter_penalties=' . $configs['check7.lighter_penalties'] . '&mobile=' . $configs['check7.mobile'],
             'api8' => 'http://v2.api.iphub.info/ip/' . $ip,
             'api9' => 'https://www.iphunter.info:8082/v1/ip/' . $ip,
@@ -42,7 +42,7 @@ class API
                 $results[$dataLabel] = self::REQUEST_ERROR;
                 continue;
             }
-            
+
             $results[$dataLabel] = self::parseResult(json_decode($internetResult->getBody(), true), $ip);
         }
         return $results;
@@ -52,13 +52,14 @@ class API
     {
         if (is_array($result)) {
             return match (true) {
-                isset($result['BadIP']) => $result['BadIP'] >= 1 ? true : false,
-                isset($result[$ip]['proxy']) => $result[$ip]['proxy'] === 'yes' ? true : false,
-                isset($result['host-ip']) => $result['host-ip'],
-                isset($result['isProxy']) => $result['isProxy'] === 'YES' ? true : false,
-                isset($result['security']['vpn']) => $result['security']['vpn'],
-                isset($result['security']['proxy']) => $result['security']['proxy'],
-                isset($result['security']['tor']) => $result['security']['tor'],
+                isset($result['BadIP']) => $result['BadIP'] >= 1 ? true : false, // 1
+                isset($result[$ip]['proxy']) => $result[$ip]['proxy'] === 'yes' ? true : false, // 2
+                isset($result['host-ip']) => $result['host-ip'], // 4
+                isset($result['isProxy']) => $result['isProxy'] === 'YES' ? true : false, // 5
+                isset($result['security']['vpn']) => $result['security']['vpn'], // 6
+                isset($result['security']['proxy']) => $result['security']['proxy'], // 6
+                isset($result['security']['tor']) => $result['security']['tor'], // 6
+                isset($result['security']['relay']) => $result['security']['relay'], // 6
                 isset($result['vpn']) => $result['vpn'],
                 isset($result['proxy']) => $result['proxy'],
                 isset($result['tor']) => $result['tor'],
@@ -72,7 +73,7 @@ class API
             };
         }
         if (is_int($result)) {
-            // right now, there's only 1 check using this so we can just return the result directly
+            // right now, there's only 1 check using this so we can just return the result directly (3)
             return $result === 1 ? true : false;
         }
         return self::PARSE_ERROR;
@@ -93,5 +94,16 @@ class API
             'check9.key' => '',
             'check10.key' => ''
         ];
+    }
+
+    private static function generateRandom(int $charLimit): string
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $randomString = '';
+        for ($i = 0; $i < $charLimit; $i++) {
+            $index = rand(0, strlen($characters) - 1);
+            $randomString .= $characters[$index];
+        }
+        return $randomString;
     }
 }

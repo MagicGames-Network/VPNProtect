@@ -77,8 +77,8 @@ check4:
 # Cryptostorm detection rate: 60%
 # False-flagged homes: 0%
 check5:
-  enabled: true
-  # OPTIONAL KEY!
+  enabled: false
+  # REQUIRED KEY!
   key: 'demo'
 
 # https://vpnapi.io/
@@ -95,6 +95,7 @@ check6:
   vpn: true
   proxy: true
   tor: true
+  relay: true
 
 # https://www.ipqualityscore.com/
 # Results updated Feb 9, 2020

@@ -27,6 +27,8 @@ Yes. This may or may not be bypassable and would probably be troublesome to atte
 
 There may also be false flags. However, there is a system put in place to prevent this and it is located in the configuration where you can change the minimum detected checks before an action.
 
+**IT IS HIGHLY RECOMMENDED THAT YOU SET UP ALL THE API KEYS AND USE ALL THAT'S PROVIDED!**
+
 ### How do I suggest a new API to be used?
 First, you need to make sure it is a trusted source. If you're very sure it can be trusted and be used for the public, you can suggest it by opening an issue.
 

@@ -33,23 +33,19 @@ class AsyncCheckTask extends AsyncTask
     {
         $result = $this->getResult();
         $player = Server::getInstance()->getPlayerExact($this->playerName) ?? null;
-
-        $failedChecks = 0;
         if (count($result) === 0) {
             $this->logger->debug('An error has occurred on VPN IPs! Please ensure others are affected before reporting!');
             return;
         }
 
+        $failedChecks = 0;
         foreach ($result as $key => $value) {
             $exclusive = ['.vpn', '.proxy', '.tor', '.hosting'];
-            if (Main::getInstance()->getConfig()->getNested(str_replace($exclusive, '', $key . '.enabled'))) {
-                // just a quick hack to check if string contains $exclusive
-                if (str_replace($exclusive, '', $key) !== $key) {
-                    if (!Main::getInstance()->getConfig()->getNested($key)) {
-                        return;
-                    }
+            if (Main::getInstance()->getConfig()->getNested(str_replace($exclusive, '', $key . '.enabled'), true)) {
+                if (!Main::getInstance()->getConfig()->getNested($key)) {
+                    return;
                 }
-                
+
                 // NOTE: do not remove this strict check
                 if ($value === true) {
                     $failedChecks++;
