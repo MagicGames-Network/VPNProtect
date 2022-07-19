@@ -185,6 +185,11 @@ check11:
 check12:
   enabled: true
 
+# https://blackbox.ipinfo.app/
+# No data
+check13:
+  enabled: true
+
 ##################
 
 

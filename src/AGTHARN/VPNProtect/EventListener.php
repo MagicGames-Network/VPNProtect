@@ -21,7 +21,7 @@ class EventListener implements Listener
     public function onPlayerJoin(PlayerJoinEvent $event): void
     {
         $player = $event->getPlayer();
-        if (!$player->hasPermission("vpnprotect.bypass")) {
+        if (!$player->hasPermission('vpnprotect.bypass')) {
             if (Main::getInstance()->getConfig()->get('enable-cache', true)) {
                 $result = Cache::$results[$player->getNetworkSession()->getIp()] ?? null;
                 if ($result !== null) {

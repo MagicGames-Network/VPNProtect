@@ -18,11 +18,11 @@ class API
 
             $internetResult = Internet::getURL($data['url'], 5, $data['header'] ?? []);
             if (!$internetResult instanceof InternetRequestResult) {
-                $results[$dataLabel] = "Request error";
+                $results[$dataLabel] = 'Request error';
                 continue;
             }
 
-            $results[$dataLabel] = Parser::parseResult(json_decode($internetResult->getBody(), true), $ip);
+            $results[$dataLabel] = Parser::parseResult(json_decode($internetResult->getBody(), true) ?? $internetResult->getBody(), $ip);
         }
         return $results;
     }

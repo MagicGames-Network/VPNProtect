@@ -34,18 +34,22 @@ class Parser
             // right now, there's only 1 check using this so we can just return the result directly (3)
             return $result === 1 ? true : false;
         }
+        if (is_string($result)) {
+            // right now, there's only 1 check using this so we can just return the result directly (13)
+            return $result === 'Y' ? true : false;
+        }
         return self::parseError($result);
     }
 
     public static function parseError(mixed $result): string
     {
         return match (true) {
-            isset($result["message"]) => $result["message"], // 1, 2, 6, 7
-            isset($result["msg"]) => $result["msg"], // 4, 9
-            isset($result["response"]) => $result["response"], // 5
-            isset($result["error"]) => $result["error"], // 8
-            isset($result["error"]["message"]) => $result["error"]["message"], // 10
-            default => "Unknown error" // 12
+            isset($result['message']) => $result['message'], // 1, 2, 6, 7
+            isset($result['msg']) => $result['msg'], // 4, 9
+            isset($result['response']) => $result['response'], // 5
+            isset($result['error']) => $result['error'], // 8
+            isset($result['error']['message']) => $result['error']['message'], // 10
+            default => 'Unknown error' // 12, 13
         };
     }
 
@@ -71,7 +75,7 @@ class Parser
                 'url' => 'https://vpnapi.io/api/' . $ip
             ],
             'api7' => [
-                'url' => 'https://ipqualityscore.com/api/json/ip/' . $configs['check7.key'] . '/' . $ip . '?strictness=' . $configs['check7.strictness'] . '&allow_public_access_points=true&fast=' . $configs['check7.fast'] . '&lighter_penalties=' . $configs['check7.lighter_penalties'] . '&mobile=' . $configs['check7.mobile']
+                'url' => 'https://ipqualityscore.com/api/json/ip/' . (!empty($configs['check7.key']) ? $configs['check7.key'] : '1') . '/' . $ip . '?strictness=' . $configs['check7.strictness'] . '&allow_public_access_points=true&fast=' . $configs['check7.fast'] . '&lighter_penalties=' . $configs['check7.lighter_penalties'] . '&mobile=' . $configs['check7.mobile']
             ],
             'api8' => [
                 'url' => 'http://v2.api.iphub.info/ip/' . $ip,
@@ -89,7 +93,10 @@ class Parser
             ],
             'api12' => [
                 'url' => 'http://ip-api.com/json/' . $ip . '?fields=proxy'
-            ]
+            ],
+            'api13' => [
+                'url' => 'https://blackbox.ipinfo.app/lookup/' . $ip
+            ],
         ];
     }
 

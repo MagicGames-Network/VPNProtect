@@ -9,9 +9,9 @@ use pocketmine\Server;
 use AGTHARN\VPNProtect\Main;
 use pocketmine\player\Player;
 use AGTHARN\VPNProtect\util\API;
+use pocketmine\utils\TextFormat;
 use AGTHARN\VPNProtect\util\Cache;
 use pocketmine\scheduler\AsyncTask;
-use pocketmine\utils\TextFormat;
 
 class AsyncCheckTask extends AsyncTask
 {
@@ -45,7 +45,7 @@ class AsyncCheckTask extends AsyncTask
             $exclusive = ['.vpn', '.proxy', '.tor', '.hosting', '.relay'];
             if (Main::getInstance()->getConfig()->getNested(str_replace($exclusive, '', $key . '.enabled'), true)) {
                 if (!Main::getInstance()->getConfig()->getNested($key)) {
-                    return;
+                    continue;
                 }
 
                 // NOTE: do not remove this strict check
