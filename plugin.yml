@@ -2,7 +2,7 @@ main: AGTHARN\VPNProtect\Main
 name: VPNProtect
 version: 2.1.0
 author: AGTHARN
-api: 4.6.0
+api: 4.0.0
 
 permissions:
   vpnprotect.bypass:

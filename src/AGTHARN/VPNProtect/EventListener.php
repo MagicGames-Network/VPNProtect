@@ -6,6 +6,8 @@ namespace AGTHARN\VPNProtect;
 
 use AGTHARN\VPNProtect\Main;
 use pocketmine\event\Listener;
+use pocketmine\utils\TextFormat;
+use AGTHARN\VPNProtect\util\Cache;
 use AGTHARN\VPNProtect\task\AsyncCheckTask;
 use pocketmine\event\player\PlayerJoinEvent;
 
@@ -20,6 +22,19 @@ class EventListener implements Listener
     {
         $player = $event->getPlayer();
         if (!$player->hasPermission("vpnprotect.bypass")) {
+            if (Main::getInstance()->getConfig()->get('enable-cache', true)) {
+                $result = Cache::$results[$player->getNetworkSession()->getIp()] ?? null;
+                if ($result !== null) {
+                    if ($result) {
+                        $this->plugin->getLogger()->debug($player->getName() . ' has results cached and had passed! Skipping...');
+                        return;
+                    }
+                    $this->plugin->getLogger()->debug($player->getName() . ' has results cached and had failed!');
+                    $player->kick(TextFormat::colorize(Main::getInstance()->getConfig()->get('kick-message')));
+                    return;
+                }
+            }
+
             // TODO: IF LARGE NUMBER OF PLAYERS JOIN LIKE A BOT ATTACK, THE ASYNCPOOL WILL BE FLOODED!
             $this->plugin->getServer()->getAsyncPool()->submitTask(new AsyncCheckTask($this->plugin->getLogger(), $player->getNetworkSession()->getIp(), $player->getName(), [
                 'check2.key' => $this->plugin->getConfig()->getNested('check2.key', ''),

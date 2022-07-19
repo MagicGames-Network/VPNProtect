@@ -29,6 +29,20 @@ minimum-checks: 2
 ################
 
 
+##### CACHING #####
+
+# When this is toggled, every player that joins will have their IP will be cached to memory.
+# This will reduce the number of queries and server load if the player already has their IP results.
+# It will also save up quota for the API providers.
+enable-cache: true
+
+# The maximum amount of IPs that can be cached in memory.
+# Overflowed IPs will be removed.
+cache-limit: 50
+
+###################
+
+
 ##### CHECKS #####
 
 # https://www.getipintel.net/
