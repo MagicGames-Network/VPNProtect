@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace AGTHARN\VPNProtect\util;
 
-use pocketmine\utils\Internet;
-use pocketmine\utils\InternetRequestResult;
-
 class Parser
 {
     public static function parseResult(mixed $result, string $ip): bool|int

@@ -11,11 +11,9 @@ use pocketmine\event\player\PlayerJoinEvent;
 
 class EventListener implements Listener
 {
-    private Main $plugin;
-
-    public function __construct(Main $plugin)
-    {
-        $this->plugin = $plugin;
+    public function __construct(
+        private Main $plugin
+    ) {
     }
 
     public function onPlayerJoin(PlayerJoinEvent $event): void

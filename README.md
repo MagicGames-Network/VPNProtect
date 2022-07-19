@@ -16,6 +16,7 @@ Credits to SpigotMC's [AntiVPN](https://www.spigotmc.org/resources/anti-vpn.5829
 - [By any chance would this plugin fail?](#by-any-chance-would-this-plugin-fail)
 - [How do I suggest a new API to be used?](#how-do-i-suggest-a-new-api-to-be-used)
 - [Will this plugin cause my server to lag?](#will-this-plugin-cause-my-server-to-lag)
+- [How do I integrate it into my own plugin?](#how-do-i-integrate-it-into-my-own-plugin)
 
 ### How does this plugin exactly work?
 This plugin uses the APIs offered by different web services that make the checks possible. The ones used are free and I can't 100% guarantee that your IPs are in safe hands, but the ones used may be trusted!
@@ -34,3 +35,16 @@ First, you need to make sure it is a trusted source. If you're very sure it can 
 
 ### Will this plugin cause my server to lag?
 It mostly depends on your server resources. However, this plugin shouldn't cause any lag issues as the checks run on AsyncTask which will not slow down the main thread.
+
+### How do I integrate it into my own plugin?
+There are two ways you can do it and you must have basic knowledge.
+
+```php
+// Use the async task within the plugin. Recommended to do so as queries hog the main thread:
+Server::getInstance()->getAsyncPool()->submitTask(new AsyncCheckTask(Main::getInstance()->getLogger(), $player->getNetworkSession()->getIp(), $player->getName(), API::getDefaults()));
+```
+
+```php
+// Use without running it asyncly. Not recommended unless you know what you're doing:
+API::checkAll($ip, API::getDefaults());
+```
