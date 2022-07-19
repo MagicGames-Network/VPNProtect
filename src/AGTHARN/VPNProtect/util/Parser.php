@@ -6,7 +6,7 @@ namespace AGTHARN\VPNProtect\util;
 
 class Parser
 {
-    public static function parseResult(mixed $result, string $ip): bool|int
+    public static function parseResult(mixed $result, string $ip): bool|string
     {
         if (is_array($result)) {
             return match (true) {
@@ -19,7 +19,7 @@ class Parser
                 isset($result['security']['tor']) => $result['security']['tor'], // 6
                 isset($result['security']['relay']) => $result['security']['relay'], // 6
                 isset($result['vpn']) => $result['vpn'], // 7
-                isset($result['proxy']) => $result['proxy'], // 7, 11 and 12
+                isset($result['proxy']) => $result['proxy'], // 7, 11, 12
                 isset($result['tor']) => $result['tor'], // 7
                 isset($result['block']) => $result['block'] === 1 ? true : false, // 8
                 isset($result['data']['block']) => $result['data']['block'] === 1 ? true : false, // 9
@@ -27,14 +27,26 @@ class Parser
                 isset($result['privacy']['proxy']) => $result['privacy']['proxy'], // 10
                 isset($result['privacy']['tor']) => $result['privacy']['tor'], // 10
                 isset($result['privacy']['hosting']) => $result['privacy']['hosting'], // 10
-                default => API::PARSE_ERROR
+                default => self::parseError($result)
             };
         }
         if (is_int($result)) {
             // right now, there's only 1 check using this so we can just return the result directly (3)
             return $result === 1 ? true : false;
         }
-        return API::PARSE_ERROR;
+        return self::parseError($result);
+    }
+
+    public static function parseError(mixed $result): string
+    {
+        return match (true) {
+            isset($result["message"]) => $result["message"], // 1, 2, 6, 7
+            isset($result["msg"]) => $result["msg"], // 4, 9
+            isset($result["response"]) => $result["response"], // 5
+            isset($result["error"]) => $result["error"], // 8
+            isset($result["error"]["message"]) => $result["error"]["message"], // 10
+            default => "Unknown error" // 12
+        };
     }
 
     public static function parseMapping(string $ip, array $configs): array

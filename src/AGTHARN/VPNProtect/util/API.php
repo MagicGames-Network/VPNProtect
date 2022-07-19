@@ -9,9 +9,6 @@ use pocketmine\utils\InternetRequestResult;
 
 class API
 {
-    public const REQUEST_ERROR = 0;
-    public const PARSE_ERROR = 1;
-
     public static function checkAll(string $ip, array $configs = null): array
     {
         // This code originates from VPNProtect.
@@ -21,7 +18,7 @@ class API
 
             $internetResult = Internet::getURL($data['url'], 5, $data['header'] ?? []);
             if (!$internetResult instanceof InternetRequestResult) {
-                $results[$dataLabel] = self::REQUEST_ERROR;
+                $results[$dataLabel] = "Request error";
                 continue;
             }
 

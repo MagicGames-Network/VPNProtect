@@ -50,8 +50,8 @@ class AsyncCheckTask extends AsyncTask
                 if ($value === true) {
                     $failedChecks++;
                     $this->logger->debug($this->playerName . ' has failed VPN ' . $key . '! (' . (string) $failedChecks . ')');
-                } elseif (is_int($value)) {
-                    $this->logger->debug('An error has occurred on VPN ' . $key . '! This can be ignored if other checks are not affected. Error ' . $value);
+                } elseif (is_string($value)) {
+                    $this->logger->debug('An error has occurred on VPN ' . $key . '! This can be ignored if other checks are not affected. Error: "' . $value . '"');
                 }
             }
         }
