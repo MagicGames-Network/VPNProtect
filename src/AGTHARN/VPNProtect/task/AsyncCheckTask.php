@@ -7,6 +7,7 @@ namespace AGTHARN\VPNProtect\task;
 use Logger;
 use pocketmine\Server;
 use AGTHARN\VPNProtect\Main;
+use pocketmine\player\Player;
 use AGTHARN\VPNProtect\util\API;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\utils\TextFormat as C;
@@ -33,6 +34,10 @@ class AsyncCheckTask extends AsyncTask
     {
         $result = $this->getResult();
         $player = Server::getInstance()->getPlayerExact($this->playerName) ?? null;
+        if (!$player instanceof Player) {
+            $this->logger->debug('The player, ' . $this->playerName . ' does not exist! Skipping...');
+            return;
+        }
         if (count($result) === 0) {
             $this->logger->debug('An error has occurred on VPN IPs! Please ensure others are affected before reporting!');
             return;
@@ -40,7 +45,7 @@ class AsyncCheckTask extends AsyncTask
 
         $failedChecks = 0;
         foreach ($result as $key => $value) {
-            $exclusive = ['.vpn', '.proxy', '.tor', '.hosting'];
+            $exclusive = ['.vpn', '.proxy', '.tor', '.hosting', '.relay'];
             if (Main::getInstance()->getConfig()->getNested(str_replace($exclusive, '', $key . '.enabled'), true)) {
                 if (!Main::getInstance()->getConfig()->getNested($key)) {
                     return;
@@ -49,7 +54,7 @@ class AsyncCheckTask extends AsyncTask
                 // NOTE: do not remove this strict check
                 if ($value === true) {
                     $failedChecks++;
-                    $this->logger->debug($this->playerName . ' has failed VPN ' . $key . '! (' . (string) $failedChecks . ')');
+                    $this->logger->debug($this->playerName . ' has failed VPN ' . $key . '! (' . $failedChecks . ')');
                 } elseif (is_string($value)) {
                     $this->logger->debug('An error has occurred on VPN ' . $key . '! This can be ignored if other checks are not affected. Error: "' . $value . '"');
                 }
@@ -58,11 +63,11 @@ class AsyncCheckTask extends AsyncTask
 
         if ($failedChecks > 0) {
             if (Main::getInstance()->getConfig()->get('enable-kick', true) && $failedChecks >= Main::getInstance()->getConfig()->get('minimum-checks', 2)) {
-                $player === null ? $this->logger->debug('An error has occurred when kicking a player! ') : $player->kick(C::colorize(Main::getInstance()->getConfig()->get('kick-message')));
+                $player->kick(C::colorize(Main::getInstance()->getConfig()->get('kick-message')));
             }
-            $this->logger->debug($this->playerName . ' VPN Checks have been completed and player has failed! (' . (string) $failedChecks . ')');
+            $this->logger->debug($this->playerName . ' VPN Checks have been completed and player has failed! (' . $failedChecks . ')');
             return;
         }
-        $this->logger->debug($this->playerName . ' VPN Checks have been completed and player has passed! (' . (string) $failedChecks . ')');
+        $this->logger->debug($this->playerName . ' VPN Checks have been completed and player has passed! (' . $failedChecks . ')');
     }
 }

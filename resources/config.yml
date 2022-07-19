@@ -4,11 +4,14 @@
 #   \      /   |   ___/  |  . `  | |   ___/  |      /     |  |  |  |     |  |     |   __|  |  |         |  |     
 #    \    /    |  |      |  |\   | |  |      |  |\  \----.|  `--'  |     |  |     |  |____ |  `----.    |  |     
 #     \__/     | _|      |__| \__| | _|      | _| `._____| \______/      |__|     |_______| \______|    |__|     
-#                                                                                                             
+#                     
 
-# HEAVILY INSPIRED BY SPIGOTMC's ANTIVPN PLUGIN
-# https://www.spigotmc.org/resources/anti-vpn.58291/
-# (dont actually try to use it on a pmmp server tho)
+
+# NOTICE:
+# API keys can be obtained by signing up or purchasing from the according sites.
+# It is recommended for you to set them up for full efficiency.
+#
+# HOWEVER! It is your responsibility to also trust these sources!
 
 
 ##### KICK #####
@@ -18,17 +21,15 @@
 enable-kick: true
 
 # Minimum checks failed before the player is considered detected for a VPN.
-# == 1 - Tend to have many false flags, not recommended but strict rule
-# == 2 - Rare false flags, recommended for strong VPNs
-# >= 3 - Safe range, effective against weak VPNs
+# == 1 - Tend to have many false flags, not recommended and a strict rule
+# == 2 - Rarely any false flags, recommended for strong VPNs
+# >= 3 - Safe range, effective against weaker VPNs
 minimum-checks: 2
 
 ################
 
 
 ##### CHECKS #####
-
-# Keys can be gotten from signing up or purchasing from these sites.
 
 # https://www.getipintel.net/
 # Results updated Jan 19, 2020
