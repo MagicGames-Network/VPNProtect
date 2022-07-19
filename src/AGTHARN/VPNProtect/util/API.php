@@ -19,7 +19,7 @@ class API
         foreach (Parser::parseMapping($ip, $configs ?? self::getDefaults()) as $key => $data) {
             $dataLabel = str_replace('api', 'check', $key);
 
-            $internetResult = Internet::getURL($data[0], 10, $data[1]);
+            $internetResult = Internet::getURL($data['url'], 5, $data['header'] ?? []);
             if (!$internetResult instanceof InternetRequestResult) {
                 $results[$dataLabel] = self::REQUEST_ERROR;
                 continue;

@@ -165,6 +165,11 @@ check11:
   # OPTIONAL KEY!
   key: ''
 
+# https://ip-api.com/
+# No data
+check12:
+  enabled: true
+
 ##################
 
 

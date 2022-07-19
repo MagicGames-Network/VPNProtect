@@ -19,7 +19,7 @@ class Parser
                 isset($result['security']['tor']) => $result['security']['tor'], // 6
                 isset($result['security']['relay']) => $result['security']['relay'], // 6
                 isset($result['vpn']) => $result['vpn'], // 7
-                isset($result['proxy']) => $result['proxy'], // 7 and 11
+                isset($result['proxy']) => $result['proxy'], // 7, 11 and 12
                 isset($result['tor']) => $result['tor'], // 7
                 isset($result['block']) => $result['block'] === 1 ? true : false, // 8
                 isset($result['data']['block']) => $result['data']['block'] === 1 ? true : false, // 9
@@ -41,48 +41,42 @@ class Parser
     {
         return [
             'api1' => [
-                'https://check.getipintel.net/check.php?ip=' . $ip . '&format=json&contact=' . self::generateRandom(mt_rand(0, 10)) . '@outlook.de&oflags=b',
-                []
+                'url' => 'https://check.getipintel.net/check.php?ip=' . $ip . '&format=json&contact=' . self::generateRandom(mt_rand(6, 10)) . '@outlook.de&oflags=b'
             ],
             'api2' => [
-                'https://proxycheck.io/v2/' . $ip . '?key=' . $configs['check2.key'],
-                []
+                'url' => 'https://proxycheck.io/v2/' . $ip . '?key=' . $configs['check2.key']
             ],
             'api3' => [
-                'https://api.iptrooper.net/check/' . $ip,
-                []
+                'url' => 'https://api.iptrooper.net/check/' . $ip
             ],
             'api4' => [
-                'http://api.vpnblocker.net/v2/json/' . $ip . $configs['check4.key'],
-                []
+                'url' => 'http://api.vpnblocker.net/v2/json/' . $ip . $configs['check4.key']
             ],
             'api5' => [
-                'https://api.ip2proxy.com/?ip=' . $ip . '&format=json&key=' . $configs['check5.key'],
-                []
+                'url' => 'https://api.ip2proxy.com/?ip=' . $ip . '&format=json&key=' . $configs['check5.key']
             ],
             'api6' => [
-                'https://vpnapi.io/api/' . $ip,
-                []
+                'url' => 'https://vpnapi.io/api/' . $ip
             ],
             'api7' => [
-                'https://ipqualityscore.com/api/json/ip/' . $configs['check7.key'] . '/' . $ip . '?strictness=' . $configs['check7.strictness'] . '&allow_public_access_points=true&fast=' . $configs['check7.fast'] . '&lighter_penalties=' . $configs['check7.lighter_penalties'] . '&mobile=' . $configs['check7.mobile'],
-                []
+                'url' => 'https://ipqualityscore.com/api/json/ip/' . $configs['check7.key'] . '/' . $ip . '?strictness=' . $configs['check7.strictness'] . '&allow_public_access_points=true&fast=' . $configs['check7.fast'] . '&lighter_penalties=' . $configs['check7.lighter_penalties'] . '&mobile=' . $configs['check7.mobile']
             ],
             'api8' => [
-                'http://v2.api.iphub.info/ip/' . $ip,
-                ['X-Key: ' . $configs['check8.key']]
+                'url' => 'http://v2.api.iphub.info/ip/' . $ip,
+                'header' => ['X-Key: ' . $configs['check8.key']]
             ],
             'api9' => [
-                'https://www.iphunter.info:8082/v1/ip/' . $ip,
-                ['X-Key: ' . $configs['check9.key']]
+                'url' => 'https://www.iphunter.info:8082/v1/ip/' . $ip,
+                'header' => ['X-Key: ' . $configs['check9.key']]
             ],
             'api10' => [
-                'https://ipinfo.io/' . $ip . '/json?token=' . $configs['check10.key'],
-                []
+                'url' => 'https://ipinfo.io/' . $ip . '/json?token=' . $configs['check10.key']
             ],
             'api11' => [
-                'https://funkemunky.cc/vpn?ip=' . $ip . '&license=' . $configs['check11.key'],
-                []
+                'url' => 'https://funkemunky.cc/vpn?ip=' . $ip . '&license=' . $configs['check11.key']
+            ],
+            'api12' => [
+                'url' => 'http://ip-api.com/json/' . $ip . '?fields=proxy'
             ]
         ];
     }
