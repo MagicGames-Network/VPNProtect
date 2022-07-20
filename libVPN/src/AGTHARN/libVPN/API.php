@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace AGTHARN\VPNProtect\util;
+namespace AGTHARN\libVPN;
 
 use pocketmine\utils\Internet;
+use AGTHARN\libVPN\util\Parser;
 use pocketmine\utils\InternetRequestResult;
 
 class API

@@ -6,11 +6,11 @@ namespace AGTHARN\VPNProtect\task;
 
 use Logger;
 use pocketmine\Server;
+use AGTHARN\libVPN\API;
 use AGTHARN\VPNProtect\Main;
 use pocketmine\player\Player;
-use AGTHARN\VPNProtect\util\API;
+use AGTHARN\libVPN\util\Cache;
 use pocketmine\utils\TextFormat;
-use AGTHARN\VPNProtect\util\Cache;
 use pocketmine\scheduler\AsyncTask;
 
 class AsyncCheckTask extends AsyncTask

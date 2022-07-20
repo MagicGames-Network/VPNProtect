@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace AGTHARN\VPNProtect;
 
 use AGTHARN\VPNProtect\Main;
+use AGTHARN\libVPN\util\Cache;
 use pocketmine\event\Listener;
 use pocketmine\utils\TextFormat;
-use AGTHARN\VPNProtect\util\Cache;
 use AGTHARN\VPNProtect\task\AsyncCheckTask;
 use pocketmine\event\player\PlayerJoinEvent;
 

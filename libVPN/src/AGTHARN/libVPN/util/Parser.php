@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AGTHARN\VPNProtect\util;
+namespace AGTHARN\libVPN\util;
 
 class Parser
 {

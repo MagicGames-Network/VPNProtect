@@ -4,5 +4,7 @@ branches:
 - main
 projects:
   VPNProtect:
-    path: ""
+    path: VPNProtect/
+  libVPN:
+    path: libVPN/
 ...

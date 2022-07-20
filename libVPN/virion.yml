@@ -1,0 +1,5 @@
+antigen: AGTHARN\libVPN
+name: libVPN
+version: 1.0.0
+author: AGTHARN
+api: 4.0.0
