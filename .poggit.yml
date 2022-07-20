@@ -7,4 +7,6 @@ projects:
     path: VPNProtect/
   libVPN:
     path: libVPN/
+    model: virion
+    type: library
 ...
