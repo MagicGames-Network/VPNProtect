@@ -51,7 +51,7 @@ cache-limit: 50
 # NordVPN detection rate:        86.00%
 # Cryptostorm detection rate:   100.00%
 # False-flagged homes:            0.00%
-check1:
+api1:
   enabled: true
 
 # https://proxycheck.io
@@ -60,7 +60,7 @@ check1:
 # NordVPN detection rate:       100.00%
 # Cryptostorm detection rate:   100.00%
 # False-flagged homes:            0.00%
-check2:
+api2:
   enabled: true
   # OPTIONAL KEY!
   key: ''
@@ -71,7 +71,7 @@ check2:
 # NordVPN detection rate:        96.00%
 # Cryptostorm detection rate:   100.00%
 # False-flagged homes:            0.00%
-check3:
+api3:
   enabled: true
 
 # https://vpnblocker.net/usage
@@ -80,7 +80,7 @@ check3:
 # NordVPN detection rate:       64.00%
 # Cryptostorm detection rate:   82.14%
 # False-flagged homes:           0.00%
-check4:
+api4:
   enabled: true
   # OPTIONAL KEY!
   key: ''
@@ -91,7 +91,7 @@ check4:
 # NordVPN detection rate: 100%
 # Cryptostorm detection rate: 60%
 # False-flagged homes: 0%
-check5:
+api5:
   enabled: false
   # REQUIRED KEY!
   key: 'demo'
@@ -104,7 +104,7 @@ check5:
 # False-flagged homes: 0%
 # 
 # NOTE: Data may be incorrect & tends to fail a lot
-check6:
+api6:
   enabled: true
   # Different types of checks to enable
   vpn: true
@@ -118,7 +118,7 @@ check6:
 # NordVPN detection rate:       86.00%
 # Cryptostorm detection rate:   96.43%
 # False-flagged homes:           0.00%
-check7:
+api7:
   enabled: false
   # REQUIRED KEY!
   key: ''
@@ -141,7 +141,7 @@ check7:
 # NordVPN detection rate:       84.00%
 # Cryptostorm detection rate:   96.43%
 # False-flagged homes:           0.00%
-check8:
+api8:
   enabled: false
   # REQUIRED KEY!
   key: ''
@@ -152,7 +152,7 @@ check8:
 # NordVPN detection rate:       60.00%
 # Cryptostorm detection rate:   92.86%
 # False-flagged homes:           0.00%
-check9:
+api9:
   enabled: false
   # REQUIRED KEY!
   key: ''
@@ -163,7 +163,7 @@ check9:
 # NordVPN detection rate:       84.00%
 # Cryptostorm detection rate:    0.00%
 # False-flagged homes:           0.00%
-check10:
+api10:
   enabled: false
   # REQUIRED KEY!
   key: ''
@@ -175,19 +175,19 @@ check10:
 
 # https://funkemunky.cc/
 # No data
-check11:
+api11:
   enabled: true
   # OPTIONAL KEY!
   key: ''
 
 # https://ip-api.com/
 # No data
-check12:
+api12:
   enabled: true
 
 # https://blackbox.ipinfo.app/
 # No data
-check13:
+api13:
   enabled: true
 
 ##################

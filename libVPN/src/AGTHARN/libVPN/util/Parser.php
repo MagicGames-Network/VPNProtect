@@ -60,36 +60,36 @@ class Parser
                 'url' => 'https://check.getipintel.net/check.php?ip=' . $ip . '&format=json&contact=' . self::generateRandom(mt_rand(6, 10)) . '@outlook.de&oflags=b'
             ],
             'api2' => [
-                'url' => 'https://proxycheck.io/v2/' . $ip . '?key=' . $configs['check2.key']
+                'url' => 'https://proxycheck.io/v2/' . $ip . '?key=' . $configs['api2.key']
             ],
             'api3' => [
                 'url' => 'https://api.iptrooper.net/check/' . $ip
             ],
             'api4' => [
-                'url' => 'http://api.vpnblocker.net/v2/json/' . $ip . $configs['check4.key']
+                'url' => 'http://api.vpnblocker.net/v2/json/' . $ip . $configs['api4.key']
             ],
             'api5' => [
-                'url' => 'https://api.ip2proxy.com/?ip=' . $ip . '&format=json&key=' . $configs['check5.key']
+                'url' => 'https://api.ip2proxy.com/?ip=' . $ip . '&format=json&key=' . $configs['api5.key']
             ],
             'api6' => [
                 'url' => 'https://vpnapi.io/api/' . $ip
             ],
             'api7' => [
-                'url' => 'https://ipqualityscore.com/api/json/ip/' . (!empty($configs['check7.key']) ? $configs['check7.key'] : '1') . '/' . $ip . '?strictness=' . $configs['check7.strictness'] . '&allow_public_access_points=true&fast=' . $configs['check7.fast'] . '&lighter_penalties=' . $configs['check7.lighter_penalties'] . '&mobile=' . $configs['check7.mobile']
+                'url' => 'https://ipqualityscore.com/api/json/ip/' . (!empty($configs['api7.key']) ? $configs['api7.key'] : '1') . '/' . $ip . '?strictness=' . $configs['api7.strictness'] . '&allow_public_access_points=true&fast=' . $configs['api7.fast'] . '&lighter_penalties=' . $configs['api7.lighter_penalties'] . '&mobile=' . $configs['api7.mobile']
             ],
             'api8' => [
                 'url' => 'http://v2.api.iphub.info/ip/' . $ip,
-                'header' => ['X-Key: ' . $configs['check8.key']]
+                'header' => ['X-Key: ' . $configs['api8.key']]
             ],
             'api9' => [
                 'url' => 'https://www.iphunter.info:8082/v1/ip/' . $ip,
-                'header' => ['X-Key: ' . $configs['check9.key']]
+                'header' => ['X-Key: ' . $configs['api9.key']]
             ],
             'api10' => [
-                'url' => 'https://ipinfo.io/' . $ip . '/json?token=' . $configs['check10.key']
+                'url' => 'https://ipinfo.io/' . $ip . '/json?token=' . $configs['api10.key']
             ],
             'api11' => [
-                'url' => 'https://funkemunky.cc/vpn?ip=' . $ip . '&license=' . $configs['check11.key']
+                'url' => 'https://funkemunky.cc/vpn?ip=' . $ip . '&license=' . $configs['api11.key']
             ],
             'api12' => [
                 'url' => 'http://ip-api.com/json/' . $ip . '?fields=proxy'
