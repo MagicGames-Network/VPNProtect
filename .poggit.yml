@@ -5,6 +5,9 @@ branches:
 projects:
   VPNProtect:
     path: VPNProtect/
+    libs:
+      - src: AGTHARN/libVPN/libVPN
+        version: ^1.0.0
   libVPN:
     path: libVPN/
     model: virion
