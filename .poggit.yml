@@ -6,7 +6,7 @@ projects:
   VPNProtect:
     path: VPNProtect/
     libs:
-      - src: MagicGames-Network/libVPN/libVPN
+      - src: MagicGames-Network/VPNProtect/libVPN
         version: ^1.0.0
   libVPN:
     path: libVPN/
