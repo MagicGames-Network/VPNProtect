@@ -33,7 +33,7 @@ class AsyncCheckTask extends AsyncTask
 
     public function onCompletion(): void
     {
-        $result = $this->getResult();
+        $taskResult = $this->getResult();
         $player = Server::getInstance()->getPlayerExact($this->playerName) ?? null;
         if (!$player instanceof Player) {
             $this->logger->debug('The player, ' . $this->playerName . ' does not exist! Skipping...');
@@ -41,7 +41,10 @@ class AsyncCheckTask extends AsyncTask
         }
 
         $failedChecks = 0;
-        foreach ($result as $key => $value) {
+        foreach ($taskResult as $key => $data) {
+            $vpnResult = $data[0];
+            $responseMs = round($data[1] * 0.001);
+
             $exclusive = ['.vpn', '.proxy', '.tor', '.hosting', '.relay'];
             if (Main::getInstance()->getConfig()->getNested(str_replace($exclusive, '', $key . '.enabled'), true)) {
                 if (!Main::getInstance()->getConfig()->getNested($key)) {
@@ -49,11 +52,13 @@ class AsyncCheckTask extends AsyncTask
                 }
 
                 // NOTE: do not remove this strict check
-                if ($value === true) {
+                if ($vpnResult === true) {
                     $failedChecks++;
-                    $this->logger->debug($this->playerName . ' has failed VPN ' . $key . '! (' . $failedChecks . ')');
-                } elseif (is_string($value)) {
-                    $this->logger->debug('An error has occurred on VPN ' . $key . '! This can be ignored if other checks are not affected. Error: "' . $value . '"');
+                    $this->logger->debug($this->playerName . ' has failed ' . $key . '! (' . $failedChecks . ') ' . $responseMs . 'ms');
+                } elseif ($vpnResult === false) {
+                    $this->logger->debug($this->playerName . ' has passed ' . $key . '! ' . $responseMs . 'ms');
+                } elseif (is_string($vpnResult)) {
+                    $this->logger->debug('An error has occurred on ' . $key . '! This can be ignored if other checks are not affected. Error: "' . $vpnResult . '" ' . $responseMs . 'ms');
                 }
             }
         }
