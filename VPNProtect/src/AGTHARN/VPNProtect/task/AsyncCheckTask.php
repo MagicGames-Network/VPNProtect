@@ -11,24 +11,30 @@ use AGTHARN\VPNProtect\Main;
 use pocketmine\player\Player;
 use AGTHARN\libVPN\util\Cache;
 use pocketmine\utils\TextFormat;
+use AGTHARN\libVPN\util\Algorithm;
 use pocketmine\scheduler\AsyncTask;
 
 class AsyncCheckTask extends AsyncTask
 {
-    private string $configs;
+    private string $options;
 
     public function __construct(
         private Logger $logger,
         private string $playerIP,
         private string $playerName,
-        array $configs
+        array $options
     ) {
-        $this->configs = serialize($configs);
+        $this->options = serialize($options);
     }
 
     public function onRun(): void
     {
-        $this->setResult(API::checkAll($this->playerIP, unserialize($this->configs)));
+        $options = unserialize($this->options);
+        if ($options['smart-queries'] ?? true) {
+            $this->setResult(API::getSmartResults($this->playerIP, $options));
+            return;
+        }
+        $this->setResult(API::getVPNResults($this->playerIP, $options));
     }
 
     public function onCompletion(): void
@@ -45,30 +51,24 @@ class AsyncCheckTask extends AsyncTask
             $vpnResult = $data[0];
             $responseMs = round($data[1] * 0.001);
 
-            $exclusive = ['.vpn', '.proxy', '.tor', '.hosting', '.relay'];
-            if (Main::getInstance()->getConfig()->getNested(str_replace($exclusive, '', $key . '.enabled'), true)) {
-                if (!Main::getInstance()->getConfig()->getNested($key)) {
-                    continue;
-                }
-
-                // NOTE: do not remove this strict check
-                if ($vpnResult === true) {
-                    $failedChecks++;
-                    $this->logger->debug($this->playerName . ' has failed ' . $key . '! (' . $failedChecks . ') ' . $responseMs . 'ms');
-                } elseif ($vpnResult === false) {
-                    $this->logger->debug($this->playerName . ' has passed ' . $key . '! ' . $responseMs . 'ms');
-                } elseif (is_string($vpnResult)) {
-                    $this->logger->debug('An error has occurred on ' . $key . '! This can be ignored if other checks are not affected. Error: "' . $vpnResult . '" ' . $responseMs . 'ms');
-                }
+            // NOTE: do not remove this strict check
+            if ($vpnResult === true) {
+                $failedChecks++;
+                $this->logger->debug($this->playerName . ' has failed ' . $key . '! (' . $failedChecks . ') ' . $responseMs . 'ms');
+            } elseif ($vpnResult === false) {
+                $this->logger->debug($this->playerName . ' has passed ' . $key . '! ' . $responseMs . 'ms');
+            } elseif (is_string($vpnResult)) {
+                $this->logger->debug('An error has occurred on ' . $key . '! This can be ignored if other checks are not affected. Error: "' . $vpnResult . '" ' . $responseMs . 'ms');
             }
         }
 
         if ($failedChecks > 0) {
             if (Main::getInstance()->getConfig()->get('enable-kick', true) && $failedChecks >= Main::getInstance()->getConfig()->get('minimum-checks', 2)) {
                 $player->kick(TextFormat::colorize(Main::getInstance()->getConfig()->get('kick-message')));
+                $this->addCache(false);
             }
             $this->logger->debug($this->playerName . ' VPN Checks have been completed and player has failed! (' . $failedChecks . ')');
-            $this->addCache(false);
+            $this->addCache(true);
             return;
         }
         $this->logger->debug($this->playerName . ' VPN Checks have been completed and player has passed! (' . $failedChecks . ')');

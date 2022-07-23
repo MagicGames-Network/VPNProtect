@@ -6,7 +6,7 @@ namespace AGTHARN\libVPN\util;
 
 class Cache
 {
-    public static array $results = [];
+    protected static array $results = [];
 
     public static function add(string $ip, bool $result, int $cacheLimit = 50): void
     {

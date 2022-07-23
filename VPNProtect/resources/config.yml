@@ -29,6 +29,15 @@ minimum-checks: 2
 ################
 
 
+##### SMART MODE #####
+
+# Smart queries will automatically adjust parameters based off minimum checks and latency to reduce the amount of queries.
+# Disable this for full efficiency.
+smart-queries: true
+
+######################
+
+
 ##### CACHING #####
 
 # When this is toggled, every player that joins will have their IP will be cached to memory.
@@ -45,150 +54,137 @@ cache-limit: 50
 
 ##### CHECKS #####
 
+checks:
 # https://www.getipintel.net/
 # Results updated Jan 19, 2020
 # Error rate:                     0.00%
 # NordVPN detection rate:        86.00%
 # Cryptostorm detection rate:   100.00%
 # False-flagged homes:            0.00%
-api1:
-  enabled: true
-
+  api1:
+    enabled: true
 # https://proxycheck.io
 # Results updated Jan 19, 2020
 # Error rate:                     0.00%
 # NordVPN detection rate:       100.00%
 # Cryptostorm detection rate:   100.00%
 # False-flagged homes:            0.00%
-api2:
-  enabled: true
-  # OPTIONAL KEY!
-  key: ''
-
+  api2:
+    enabled: true
+    # OPTIONAL KEY!
+    key: ''
 # https://iptrooper.net/
 # Results updated Jan 19, 2020
 # Error rate:                     0.00%
 # NordVPN detection rate:        96.00%
 # Cryptostorm detection rate:   100.00%
 # False-flagged homes:            0.00%
-api3:
-  enabled: true
-
+  api3:
+    enabled: true
 # https://vpnblocker.net/usage
 # Results updated Jan 19, 2020
 # Error rate:                    0.00%
 # NordVPN detection rate:       64.00%
 # Cryptostorm detection rate:   82.14%
 # False-flagged homes:           0.00%
-api4:
-  enabled: true
-  # OPTIONAL KEY!
-  key: ''
-
+  api4:
+    enabled: true
+    # OPTIONAL KEY!
+    key: ''
 # https://www.ip2location.com/web-service/ip2proxy
 # Results updated Jul 18, 2019
 # Error rate: 0%
 # NordVPN detection rate: 100%
 # Cryptostorm detection rate: 60%
 # False-flagged homes: 0%
-api5:
-  enabled: false
-  # REQUIRED KEY!
-  key: 'demo'
-
+  api5:
+    enabled: false
+    # REQUIRED KEY!
+    key: ''
 # https://vpnapi.io/
 # Results updated Jul 7, 2019
 # Error rate: 10%
 # NordVPN detection rate: 61.90%
 # Cryptostorm detection rate: 100%
 # False-flagged homes: 0%
-# 
-# NOTE: Data may be incorrect & tends to fail a lot
-api6:
-  enabled: true
-  # Different types of checks to enable
-  vpn: true
-  proxy: true
-  tor: true
-  relay: true
-
+  api6:
+    enabled: true
+    # Different types of checks to enable
+    vpn: true
+    proxy: true
+    tor: true
+    relay: true
 # https://www.ipqualityscore.com/
 # Results updated Feb 9, 2020
 # Error rate:                    0.00%
 # NordVPN detection rate:       86.00%
 # Cryptostorm detection rate:   96.43%
 # False-flagged homes:           0.00%
-api7:
-  enabled: false
-  # REQUIRED KEY!
-  key: ''
-  # Different types of checks to enable
-  vpn: true
-  proxy: true
-  tor: true
-  # Whether to force IPs to be scored as a mobile device
-  mobile: true
-  # Whether to speed up API response time (Not recommended)
-  fast: false
-  # Increasing this will expand the tests performed and also increase chances of false flags
-  strictness: 0
-  # Lowers detection for mixed quality IP addresses to prevent false-positives
-  lighter_penalties: true
-
+  api7:
+    enabled: false
+    # REQUIRED KEY!
+    key: ''
+    # Different types of checks to enable
+    vpn: true
+    proxy: true
+    tor: true
+    # Whether to force IPs to be scored as a mobile device
+    mobile: true
+    # Whether to speed up API response time (Not recommended)
+    fast: false
+    # Increasing this will expand the tests performed and also increase chances of false flags
+    strictness: 0
+    # Lowers detection for mixed quality IP addresses to prevent false-positives
+    lighter_penalties: true
 # https://iphub.info/
 # Results updated Jan 19, 2020
 # Error rate:                    0.00%
 # NordVPN detection rate:       84.00%
 # Cryptostorm detection rate:   96.43%
 # False-flagged homes:           0.00%
-api8:
-  enabled: false
-  # REQUIRED KEY!
-  key: ''
-
+  api8:
+    enabled: false
+    # REQUIRED KEY!
+    key: ''
 # https://www.iphunter.info/
 # Results updated Jan 19, 2020
 # Error rate:                    0.00%
 # NordVPN detection rate:       60.00%
 # Cryptostorm detection rate:   92.86%
 # False-flagged homes:           0.00%
-api9:
-  enabled: false
-  # REQUIRED KEY!
-  key: ''
-
+  api9:
+    enabled: false
+    # REQUIRED KEY!
+    key: ''
 # https://ipinfo.io/
 # Results updated Jul 20, 2020
 # Error rate:                    0.00%
 # NordVPN detection rate:       84.00%
 # Cryptostorm detection rate:    0.00%
 # False-flagged homes:           0.00%
-api10:
-  enabled: false
-  # REQUIRED KEY!
-  key: ''
-  # Different types of checks to enable
-  vpn: true
-  proxy: true
-  tor: true
-  hosting: true
-
+  api10:
+    enabled: false
+    # REQUIRED KEY!
+    key: ''
+    # Different types of checks to enable
+    vpn: true
+    proxy: true
+    tor: true
+    hosting: true
 # https://funkemunky.cc/
 # No data
-api11:
-  enabled: true
-  # OPTIONAL KEY!
-  key: ''
-
+  api11:
+    enabled: true
+    # OPTIONAL KEY!
+    key: ''
 # https://ip-api.com/
 # No data
-api12:
-  enabled: true
-
+  api12:
+    enabled: true
 # https://blackbox.ipinfo.app/
 # No data
-api13:
-  enabled: true
+  api13:
+    enabled: true
 
 ##################
 
