@@ -18,9 +18,6 @@ class Algorithm
         $responseTop = array_slice($timings, 0, $minimumChecks + 2, true);
         $detectionTop = array_slice($detection, 0, $minimumChecks + 2, true);
 
-        var_dump($responseTop);
-        var_dump($detectionTop);
-
         $intersect = array_intersect($responseTop, $detectionTop);
         if (count($intersect) < $minimumChecks) {
             // TODO: Better logic for this

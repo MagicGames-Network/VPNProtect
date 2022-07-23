@@ -78,8 +78,8 @@ class API
         return [
             'api2.key' => '',
             'api4.key' => '',
-            'api5.key' => 'demo',
-            'api7.key' => 'demo',
+            'api5.key' => '',
+            'api7.key' => '',
             'api7.mobile' => true,
             'api7.fast' => false,
             'api7.strictness' => 0,

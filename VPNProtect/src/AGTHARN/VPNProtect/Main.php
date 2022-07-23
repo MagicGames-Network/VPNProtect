@@ -36,7 +36,6 @@ class Main extends PluginBase
                 $enabled[] = $api;
             }
         }
-        var_dump($enabled);
         return $enabled;
     }
 
